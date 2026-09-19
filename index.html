@@ -506,6 +506,7 @@
 
     <form class="contact-form" name="consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
       <input type="hidden" name="form-name" value="consultation">
+      <input type="hidden" id="subject-field" name="subject" data-remove-prefix value="New Consultation Request — Hobbs Homes">
       <p class="hidden" style="display:none;">
         <label>Don't fill this out if you're human: <input name="bot-field"></label>
       </p>
@@ -534,6 +535,13 @@
       <button type="submit">Send It Over</button>
       <p class="form-note">I'll get back to you personally — usually within a day.</p>
     </form>
+    <script>
+      document.querySelector('form[name="consultation"]').addEventListener('submit', function() {
+        var nameVal = document.getElementById('name').value.trim();
+        var subjectField = document.getElementById('subject-field');
+        subjectField.value = (nameVal ? nameVal : 'New') + ' Consultation Request — Hobbs Homes';
+      });
+    </script>
   </div>
 </section>
 
