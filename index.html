@@ -319,6 +319,55 @@
   }
   .trust-quote p.by { font-size: 14.5px; color: var(--text-soft); }
 
+  /* Reviews */
+  .reviews { padding: 100px 0; }
+  .reviews-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 8px;
+  }
+  .reviews-arrow {
+    flex: 0 0 auto;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--stone-line);
+    background: #fff;
+    font-size: 18px;
+    color: var(--black);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .reviews-arrow:hover { border-color: var(--maroon); color: var(--maroon); }
+  .reviews-track {
+    display: flex;
+    gap: 22px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    flex: 1;
+    min-width: 0;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .reviews-track::-webkit-scrollbar { display: none; }
+  .review-card {
+    flex: 0 0 340px;
+    scroll-snap-align: start;
+    background: #fff;
+    border-radius: 2px;
+    padding: 30px 28px;
+  }
+  .review-stars { color: var(--maroon); font-size: 15px; margin-bottom: 14px; letter-spacing: 2px; }
+  .review-text { font-size: 15px; color: var(--text-soft); margin-bottom: 20px; min-height: 140px; }
+  .review-by { font-size: 13.5px; color: var(--black); border-top: 1px solid var(--stone-line); padding-top: 14px; }
+  .reviews-cta { text-align: center; margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .reviews-cta a.read-zillow {
+    font-size: 15px;
+    border-bottom: 1px solid var(--black);
+    padding-bottom: 2px;
+  }
+
   /* CTA */
   .cta {
     padding: 110px 0;
@@ -557,8 +606,52 @@
       </div>
     </div>
     <div class="trust-quote">
-      <p class="q">"Ty told us the kitchen remodel wasn't worth it and to save our money. Most agents just want the sale. He wanted us to make a good decision."</p>
-      <p class="by">— A recent client, Missoula, MT</p>
+      <p class="q">"He went above and beyond to help us into our dream home. His local knowledge and the connections with other agents and lenders is second to none!"</p>
+      <p class="by">— JKM123 · Bought &amp; sold a home, 2024</p>
+    </div>
+  </div>
+</section>
+
+<section class="reviews">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What Clients Say</h2>
+      <p>Real reviews from real transactions, verified by Zillow</p>
+    </div>
+    <div class="reviews-row">
+      <button class="reviews-arrow" onclick="scrollReviews(-1)" aria-label="Previous reviews">&larr;</button>
+      <div class="reviews-track" id="reviews-track">
+        <div class="review-card">
+          <p class="review-stars">★★★★★</p>
+          <p class="review-text">"Mr. Hobbs was great to work with. He went above and beyond to help us into our dream home. His local knowledge and the connections with other agents and lenders is second to none! We found our forever home but needed to sell our current one."</p>
+          <p class="review-by">— JKM123 · Bought &amp; sold a home, 2024</p>
+        </div>
+        <div class="review-card">
+          <p class="review-stars">★★★★★</p>
+          <p class="review-text">"Tyler presents his expertise and knowledge to you in a straight forward way so you can make the best decision for your real estate purchase. He is fun to work with and will negotiate the best deal for you! Highly recommended!"</p>
+          <p class="review-by">— joshrussia · Buyer/seller consult, 2022</p>
+        </div>
+        <div class="review-card">
+          <p class="review-stars">★★★★★</p>
+          <p class="review-text">"Tyler came highly recommended by a close friend and Tyler did not disappoint. He moved our land purchase along very quickly and the best compliment I can pay him is that we are actively working with him again to find another property."</p>
+          <p class="review-by">— Stan Goodell · Bought land, 2020</p>
+        </div>
+        <div class="review-card">
+          <p class="review-stars">★★★★★</p>
+          <p class="review-text">"Tyler is a fantastic agent. He helped me through what was a very long frustrating process, for everyone involved, with such professionalism and always put me as a buyer first. He went out of his way to help with things he didn't need to."</p>
+          <p class="review-by">— backwoodsfirecracker · Bought a home, 2020</p>
+        </div>
+        <div class="review-card">
+          <p class="review-stars">★★★★★</p>
+          <p class="review-text">"Tyler is AWESOME! I've worked with other agents before, he is by far the best. He's well informed about the housing market, warns potential buyers of the pros and cons of neighborhoods and traffic patterns, basically anything which may cause frustration."</p>
+          <p class="review-by">— notmlc205 · Bought a home, 2019</p>
+        </div>
+      </div>
+      <button class="reviews-arrow" onclick="scrollReviews(1)" aria-label="Next reviews">&rarr;</button>
+    </div>
+    <div class="reviews-cta">
+      <a class="btn btn-primary" href="https://share.google/p6lX2cJQ7Ro3ds4LN" target="_blank" rel="noopener">Leave a Google Review</a>
+      <a class="read-zillow" href="https://www.zillow.com/profile/TylerHobbs406#reviews" target="_blank" rel="noopener">Read all 17 reviews on Zillow &rarr;</a>
     </div>
   </div>
 </section>
@@ -656,6 +749,12 @@
   });
   function closeLightbox() {
     document.getElementById('lightbox-overlay').classList.remove('active');
+  }
+  function scrollReviews(direction) {
+    var track = document.getElementById('reviews-track');
+    var card = track.querySelector('.review-card');
+    var scrollAmount = card ? (card.offsetWidth + 22) : 360;
+    track.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
   }
 </script>
 </body>
