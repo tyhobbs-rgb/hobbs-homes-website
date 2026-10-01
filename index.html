@@ -992,16 +992,32 @@
   var hhLeadState = { intent: '', timeline: '', price_range: '', ready_for_contact: false };
   var hhCaptureShown = false;
   var hhOpened = false;
+  var HH_OPENER_TEXT = "Hey, thanks for stopping by. Buying, selling, building, or just checking out the Missoula market?";
+
+  function hhShowGreetingIfNeeded() {
+    if (!hhOpened) {
+      hhOpened = true;
+      hhAddMessage('bot', HH_OPENER_TEXT);
+      hhHistory.push({ role: 'assistant', content: HH_OPENER_TEXT });
+    }
+  }
 
   window.hhToggleChat = function() {
     var panel = document.getElementById('hh-chat-panel');
     panel.classList.toggle('open');
-    if (panel.classList.contains('open') && !hhOpened) {
-      hhOpened = true;
-      hhAddMessage('bot', "Hey, thanks for stopping by. Buying, selling, or just scoping out the Missoula market?");
-      hhHistory.push({ role: 'assistant', content: "Hey, thanks for stopping by. Buying, selling, or just scoping out the Missoula market?" });
+    if (panel.classList.contains('open')) {
+      hhShowGreetingIfNeeded();
     }
   };
+
+  // Auto-open after 60 seconds if the visitor hasn't opened the chat themselves yet
+  setTimeout(function() {
+    var panel = document.getElementById('hh-chat-panel');
+    if (!hhOpened && !panel.classList.contains('open')) {
+      panel.classList.add('open');
+      hhShowGreetingIfNeeded();
+    }
+  }, 60000);
 
   function hhAddMessage(who, text) {
     var messages = document.getElementById('hh-chat-messages');
