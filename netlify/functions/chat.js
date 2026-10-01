@@ -23,7 +23,11 @@ Ask ONE question at a time. Keep replies to 1-3 sentences. Don't be pushy, but k
 
 Once you have all three, say something like "Got it - I'll get your info to Ty so he can follow up" and stop asking further questions. Do not ask for their name, phone, or email yourself - a form will handle that next.
 
-You must ALWAYS call the update_lead tool on every single response, filling in whatever you've learned so far (leave fields blank/null if not yet known). This runs silently - the visitor never sees it.`;
+EVERY response you give must include BOTH of these, every single time, no exceptions:
+1. A short spoken reply (1-3 sentences) that will be shown directly to the visitor in the chat
+2. A call to the update_lead tool, filling in whatever you've learned so far (leave fields blank if not yet known)
+
+Never respond with only a tool call and no spoken text - the visitor needs to see a reply every time or the conversation looks broken. The tool call is invisible bookkeeping; the spoken reply is the actual conversation.`;
 
 const TOOL = {
   name: 'update_lead',
@@ -108,9 +112,13 @@ exports.handler = async (event) => {
       }
     }
 
+    // Safety net: if Claude somehow returns only a tool call with no text,
+    // never show the visitor a blank message.
+    const finalReply = replyText.trim() || "Got it - tell me a bit more?";
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ reply: replyText.trim(), leadState }),
+      body: JSON.stringify({ reply: finalReply, leadState }),
     };
   } catch (err) {
     console.error('chat function error:', err);
