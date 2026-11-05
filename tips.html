@@ -41,7 +41,7 @@
   nav { display: flex; gap: 32px; align-items: center; }
   nav a { font-size: 15px; letter-spacing: 0.02em; color: var(--black); position: relative; }
   nav a:hover { color: var(--maroon); }
-  nav a.active { color: var(--maroon); border-bottom: 1px solid var(--maroon); padding-bottom: 4px; }
+  nav a.active { color: var(--maroon); border-bottom: 0; padding-bottom: 0; box-shadow: 0 2px 0 var(--maroon); }
   .nav-phone {
     font-family: 'Playfair Display', serif;
     font-size: 17px;
@@ -229,6 +229,13 @@
     .hdr-cta.nav-phone { display:none; }
     header nav { display:flex; justify-content:flex-start; gap:22px; overflow-x:auto; margin-top:14px; padding:12px 0; }
   }
+
+  /* sticky nav */
+  html { scroll-padding-top: 80px; }
+  header { position:sticky; top:var(--stick,-100px); z-index:60; background:var(--cream); max-width:none; margin:0; padding-left:max(40px, calc((100% - 1180px)/2 + 40px)); padding-right:max(40px, calc((100% - 1180px)/2 + 40px)); }
+  header nav { margin-top:20px; }
+  header::after { content:""; position:absolute; left:0; right:0; bottom:0; border-bottom:1px solid #e3ddcc; }
+  @media (max-width:860px) { header { padding-left:20px; padding-right:20px; } }
 </style>
 </head>
 <body>
@@ -240,6 +247,7 @@
     <a class="nav-phone hdr-cta" href="index.html#contact">Schedule a Consult</a>
   </div>
   <nav>
+    <a href="index.html">Home</a>
     <a href="index.html#contact">Buy a Home</a>
     <a href="index.html#paths">New Builds</a>
     <a href="index.html#past-projects">Past Projects</a>
@@ -427,5 +435,9 @@
   </div>
 </footer>
 
+<script>
+(function(){function s(){var h=document.querySelector('header'),n=h&&h.querySelector('nav');if(!n)return;h.style.setProperty('--stick',(-n.offsetTop)+'px');}
+window.addEventListener('load',s);window.addEventListener('resize',s);s();})();
+</script>
 </body>
 </html>
